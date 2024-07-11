@@ -39,8 +39,8 @@
 
                     <main class="mt-6" style="background: #d8d8d8"> 
                         <h1 class="text-center">Waste Collector</h1>
-                        <h2 class="text-center">Administrateur</h2>
-                        <form onSubmit="login()" method="post">
+                        <h2 class="text-center">Nouveau mot de passe</h2>
+                        <form onSubmit="resetPassword()" method="post">
                             @csrf
                             <div class="form-row align-items-center" style="display:flex; flex-direction: column;">
                                 <div class="card" style="width: 25rem; margin: 20px auto;">
@@ -65,10 +65,26 @@
                                                     <i class="fa fa-lock"></i>
                                                 </div>
                                             </div>
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe"  aria-describedby="passwordHelpInline">
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Mot de passe"  aria-describedby="passwordHelpInline" onkeyup="validatePassword()">
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="card" style="width: 25rem; margin: 20px auto;">
+                                    <div class="col-auto">
+                                        <label class="sr-only" for="confirmPassword">Confirmation mot de passe</label>
+                                        <div class="input-group mb-2" style="border-bottom: 1px solid gray;">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text" style="border: none; background: white;">
+                                                    <i class="fa fa-lock"></i>
+                                                </div>
+                                            </div>
+                                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmation mot de passe"  aria-describedby="confirmPasswordHelpInline" onkeyup="validatePassword()">
+                                        </div>
+                                    </div>
+                                    <div id="password-message"></div>
+                                </div>
+
                                 <div class="card" style="width: 25rem; margin: 20px auto;">
                                 </div>
                                 <div class="card" style="width: 25rem; margin: 20px auto;">
@@ -89,57 +105,102 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         
-        <script>          
-            async function login() {
+        <script>
+           
+           
+        //    async function resetPassword() {
+        //         event.preventDefault();
+        //         const formData = new FormData(event.target);
+        //         console.log(formData);
+
+// const getToken = async () => {
+//   try {
+//     const response = await axios.post('/sanctum/token', {
+//       email: formData.get('email'),
+//       password: formData.get('password')
+//     });
+//     return response.data.token; // Suppose que le token est renvoyé dans 'response.data.token'
+//   } catch (error) {
+//     console.error('Error obtaining token:', error.response.data);
+//     throw error;
+//   }
+// };
+
+// const sendAuthenticatedPostRequest = async (token) => {
+//   try {
+//     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+//     const response = await axios.post('/resetPassword', {
+//         email: formData.get('email'),
+//         password: formData.get('password')
+//     });
+
+//     console.log('Response:', response.data);
+//   } catch (error) {
+//     console.error('Error making authenticated request:', error.response.data);
+//   }
+// };
+
+// getToken().then(token => {
+//   sendAuthenticatedPostRequest(token);
+// }).catch(error => {
+//   console.error('Authentication failed:', error);
+// });
+
+// }; 
+
+const message = document.getElementById("password-message");
+
+function validatePassword() {
+            const password = document.getElementById("password");
+            const confirmPassword = document.getElementById("confirmPassword");
+            
+
+            if (password.value !== confirmPassword.value) {
+                message.style.color = "red";
+                message.textContent = "Les mots de passe ne correspondent pas.";
+            } else {
+                message.style.color = "green";
+                message.textContent = "Les mots de passe correspondent.";
+            }
+        }
+
+            async function resetPassword() {
                 event.preventDefault();
-                const formData = new FormData(event.target);
-                const getToken = async () => {
-                    try {
-                        const response = await axios.post('/sanctum/token', {
+                if(message.textContent == "Les mots de passe correspondent."){
+                    const formData = new FormData(event.target);
+                    console.log(formData);
+                    const token = formData.get('_token');
+                    console.log(token);
+                
+                    await axios.post('/resetPassword', {
                         email: formData.get('email'),
                         password: formData.get('password')
-                        });
-                        return response.data.token; 
-                    } catch (error) {
-                        console.error('Error obtaining token:', error.response.data);
-                        throw error;
-                    }
-                };
-                getToken().then(token => {
-                    sendAuthenticatedPostRequest(token);
-                }).catch(error => {
-                    console.error('Authentication failed:', error);
-                });
-                const sendAuthenticatedPostRequest = async (token) => {
-                    try {
-                        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                        await axios.post('/api/login', {
-                                email: formData.get('email'),
-                                password: formData.get('password')
-                            })
-                            .then(response => {
-                                window.location.reload();
-                                console.log('Data posted successfully:', response.data);
-                            })
-                            .catch(error => {
-                                if (error.response) {
-                                    console.error('Server responded with an error:', error.response.data);
-                                    console.error('Status code:', error.response.status);
-                                } else if (error.request) {
-                                    console.error('No response received:', error.request);
-                                    if (error.message.includes('Network Error')) {
-                                        console.error('This might be a CORS issue or network problem.');
-                                    }
-                                } else {
-                                    console.error('Error setting up request:', error.message);
-                                }
-                                console.error('Config:', error.config);
-                            });
-                    } catch (error) {
-                        console.error('Error making authenticated request:', error.response.data);
-                    }
-                };   
-            };        
+                    }, {
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => {
+                        window.location.reload();
+                        console.log('Data posted successfully:', response.data);
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            console.error('Server responded with an error:', error.response.data);
+                            console.error('Status code:', error.response.status);
+                        } else if (error.request) {
+                            console.error('No response received:', error.request);
+                            if (error.message.includes('Network Error')) {
+                                console.error('This might be a CORS issue or network problem.');
+                            }
+                        } else {
+                            console.error('Error setting up request:', error.message);
+                        }
+                        console.error('Config:', error.config);
+                    });
+                }
+            }; 
         </script>
     </body>
 </html>

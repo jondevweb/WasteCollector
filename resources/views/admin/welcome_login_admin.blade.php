@@ -21,9 +21,9 @@
             }
         </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
   
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->}
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
 
     </head>
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
@@ -38,8 +38,8 @@
                     </header>
 
                     <main class="mt-6" style="background: #d8d8d8"> 
-                        <h1>Administrateur</h1>
-                        <button></button>
+                        <h1>Administrateur {{$user}}</h1>
+                        <button class="dropdown-item" onClick="logout()">Déconnexion</button>
                         <div>@include('admin/tasks', ['tasks' => ['hello', 'salut']])</div>
                    
                     </main>
@@ -49,5 +49,28 @@
                 </div>
             </div>
         </div>
+        <script>
+            async function logout() {
+                event.preventDefault(); 
+                axios.post('/api/logout')
+                .then(response => {
+                    window.location.reload();
+                })
+                .catch(error => {
+                    if (error.response) {
+                        console.error('Server responded with an error:', error.response.data);
+                        console.error('Status code:', error.response.status);
+                    } else if (error.request) {
+                        console.error('No response received:', error.request);
+                        if (error.message.includes('Network Error')) {
+                            console.error('This might be a CORS issue or network problem.');
+                        }
+                    } else {
+                        console.error('Error setting up request:', error.message);
+                    }
+                    console.error('Config:', error.config);
+                });
+            };
+        </script>
     </body>
 </html>
