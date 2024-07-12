@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Entreprise;
 
 class EntrepriseController extends Controller
 {
@@ -18,7 +20,12 @@ class EntrepriseController extends Controller
 
     }
 
-    public function findEntrepriseById(){
-
+    public function findEntrepriseById(Request $request){
+        if (Auth::check()) {
+            $entreprise = Entreprise::where('id', $request->id)->get();
+            return response()->json(['result' => $entreprise]);
+        } else {
+            return response()->json(['result' => 'Veuillez vous identifier']);
+        }
     }
 }

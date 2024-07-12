@@ -21,7 +21,9 @@ class PasswordResetController extends Controller
             if ($user) {
                 $user->password = Hash::make($credentials["password"]);
                 $user->save();
-                return redirect()->route('client')->with('success', 'Mot de passe mis à jour avec succès. Veuillez vous connecter.');
+                $request->session()->put('reset');
+                return response()->json(['status' => false, 'message' => '', 'result' => []], 200);
+                // redirect()->route('client')->with('success', 'Mot de passe mis à jour avec succès. Veuillez vous connecter.');
             }
             return redirect()->route('resetPassword')->with('error', 'email invalide.');
         }catch(ValidationException $e) {

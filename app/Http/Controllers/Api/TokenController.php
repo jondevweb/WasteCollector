@@ -15,7 +15,6 @@ class TokenController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-    
         $user = User::where('email', $credentials["email"])->first();
         if (! $user || ! Hash::check($credentials["password"], $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
@@ -26,7 +25,6 @@ class TokenController extends Controller
         // $rememberToken = Str::random(60);
         $user->setRememberToken($token);
         $user->save();
-
     
         return response()->json(['token' => $token]);
     }

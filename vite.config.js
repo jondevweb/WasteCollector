@@ -1,11 +1,32 @@
-import { defineConfig } from 'vite';
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
+import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
-
+import path from 'path';
+import { defineConfig } from 'vite';
+ 
 export default defineConfig({
-    plugins: [
-        laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true,
-        }),
-    ],
+  plugins: [
+    vue({template: { transformAssetUrls }}),
+    quasar({
+      sassVariables: 'resources/sass/quasar-variables.scss'
+    }),
+    laravel({
+      input: ['resources/js/app.js', 'resources/css/app.css'],
+      refresh: true,
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'resources/js'),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      css: {
+        additionalData: `
+          @import '@fortawesome/fontawesome-free/css/all.css';
+        `
+      }
+    }
+  },
 });

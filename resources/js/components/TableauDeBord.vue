@@ -1,0 +1,3 @@
+<template>
+    TableauDeBord.vue
+</template>

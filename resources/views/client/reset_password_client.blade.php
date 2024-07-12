@@ -106,65 +106,18 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         
         <script>
-           
-           
-        //    async function resetPassword() {
-        //         event.preventDefault();
-        //         const formData = new FormData(event.target);
-        //         console.log(formData);
-
-// const getToken = async () => {
-//   try {
-//     const response = await axios.post('/sanctum/token', {
-//       email: formData.get('email'),
-//       password: formData.get('password')
-//     });
-//     return response.data.token; // Suppose que le token est renvoyé dans 'response.data.token'
-//   } catch (error) {
-//     console.error('Error obtaining token:', error.response.data);
-//     throw error;
-//   }
-// };
-
-// const sendAuthenticatedPostRequest = async (token) => {
-//   try {
-//     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-//     const response = await axios.post('/resetPassword', {
-//         email: formData.get('email'),
-//         password: formData.get('password')
-//     });
-
-//     console.log('Response:', response.data);
-//   } catch (error) {
-//     console.error('Error making authenticated request:', error.response.data);
-//   }
-// };
-
-// getToken().then(token => {
-//   sendAuthenticatedPostRequest(token);
-// }).catch(error => {
-//   console.error('Authentication failed:', error);
-// });
-
-// }; 
-
-const message = document.getElementById("password-message");
-
-function validatePassword() {
-            const password = document.getElementById("password");
-            const confirmPassword = document.getElementById("confirmPassword");
-            
-
-            if (password.value !== confirmPassword.value) {
-                message.style.color = "red";
-                message.textContent = "Les mots de passe ne correspondent pas.";
-            } else {
-                message.style.color = "green";
-                message.textContent = "Les mots de passe correspondent.";
+            const message = document.getElementById("password-message");
+            function validatePassword() {
+                const password = document.getElementById("password");
+                const confirmPassword = document.getElementById("confirmPassword");
+                if (password.value !== confirmPassword.value) {
+                    message.style.color = "red";
+                    message.textContent = "Les mots de passe ne correspondent pas.";
+                } else {
+                    message.style.color = "green";
+                    message.textContent = "Les mots de passe correspondent.";
+                }
             }
-        }
-
             async function resetPassword() {
                 event.preventDefault();
                 if(message.textContent == "Les mots de passe correspondent."){

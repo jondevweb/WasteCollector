@@ -18,38 +18,26 @@ class LoginController extends Controller
                 'password' => ['required'],
             ]);
             if (Auth::guard('web')->attempt($credentials)) {
-               $request->session()->regenerate();  
+                $request->session()->regenerate();  
                 $user = User::where('email', $request->email)->first();            
-                $clientRole = Role::find(1)->client()->where('user_id', $user->id)
-                ->first();  
-                $adminRole = Role::find(1)->administrateur()->where('user_id', $user->id)
-                ->first();
+                $userOrAdmin = '';
+                if(substr($request->server->get("HTTP_REFERER"), -6, 6) == "client"){
+                    $userOrAdmin = Role::find(2)->client()->where('user_id', $user->id)->first(); } 
+                if(substr($request->server->get("HTTP_REFERER"), -5, 5) == "admin"){
+                    $userOrAdmin = Role::find(1)->administrateur()->where('user_id', $user->id)
+                    ->first(); } 
                 $permissions = app('Permission');
-                if($clientRole){
-                    $user = $clientRole;
-                    $ids = $clientRole->get('id');
-                    $id = $ids[0]['id'];
-                    $role = $clientRole->role->name_role;
-                    $permission = $permissions->assignPermissionToRole($role);  
-                    $request->session()->put('Client', [
-                        'token' => $user->remember_token,
-                        'permissions' => $permission,
-                        $role => $id,
-                    ]);
-                } else {
-                    $user = $adminRole;
-                    $ids = $adminRole->get('id');
-                    $id = $ids[0]['id'];
-                    $role = $adminRole->role->name_role;
-                    $permission = $permissions->assignPermissionToRole($role);  
-                    $request->session()->put('Collector', [
-                        'token' => $user->remember_token,
-                        'permissions' => $permission,
-                        $role => $id,
-                    ]);
-                }
-                // dd($request->session()->get('Collector'));
-                return response()->json(['result' => $user, 200]);     
+                $user = $userOrAdmin;
+                $ids = $userOrAdmin->get('id');
+                $id = $ids[0]['id'];
+                $role = $userOrAdmin->role->name_role;
+                $permission = $permissions->assignPermissionToRole($role);  
+                $request->session()->put($role, [
+                    'token' => $user->remember_token,
+                    'permissions' => $permission,
+                    $role => $id,
+                ]);
+                return response()->json(['user' => $user, 200]);     
             }        
         }catch(ValidationException $e) {
             return response()->json(['status' => false, 'message' => '', 'result' => []], 200);
