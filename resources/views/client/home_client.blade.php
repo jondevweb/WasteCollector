@@ -33,7 +33,7 @@
                 <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                     <header>
                         <div>
-                          <!--    <img fit='contain' src="/images/ID-icionrecycle-logo.svg" spinner-color="white" style="margin: auto;"></img> -->
+                          <img fit='contain' src="/images/ID-icionrecycle-logo.svg" spinner-color="white" style="margin: auto;"></img>
                         </div>
                     </header>
                     <main class="mt-6" style="background: #d8d8d8">

@@ -23,6 +23,7 @@ Route::post('/resetPassword', [PasswordResetController::class, 'resetPassword'])
 Route::post('/sanctum/token', [TokenController::class, 'createToken']);
 
 Route::prefix('api')->middleware('auth:sanctum')->group(function () {
+    Route::post('/collectePoint/{id}', [CollectePointController::class, 'findCollectePointById']); 
     Route::post('/collectePointChoose/{id}', [CollectePointController::class, 'findCollectePointByUser']); 
     Route::post('/entreprise/{id}', [EntrepriseController::class, 'findEntrepriseById']); 
     Route::post('/login', [LoginController::class, 'login'])->name('login'); 

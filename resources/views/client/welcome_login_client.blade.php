@@ -51,7 +51,9 @@
                 <div id="burgerMenu" style="width: 30%"></div>
                 <form style="width: 70%" class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Search">
-                    <button class="btn  my-2 my-sm-0" type="submit">R</button>
+                    <button class="btn  my-2 my-sm-0" type="submit">
+                        <img src="/images/loupe.png" alt="loupe" style="width: 40px;">
+                    </button>
                 </form>
             </div>
             <div style="width: 60%; display:flex; justify-content: end;"> 
@@ -59,12 +61,6 @@
                     <select class="custom-select" id="collecteId" onchange="updateVueData()" style="height: 100%; background: #c5ceae;" > 
                     @if (session()->get('client')['roles'] = 'client')
                         <option selected  value="0">Point de collecte</option>
-                        {
-                        @if (isset($user->pointCollecte))
-                        @foreach ($user->pointCollecte as $pointCollecte)
-                            <option value="{{$pointCollecte->id}}">{{$pointCollecte->raison_sociale}}</option>
-                        @endforeach
-                        @endif
                     @else 
                         <option value="0" selected>Pas de point de collecte</option>
                     @endif
@@ -72,13 +68,13 @@
                 </div>
                 <div class="dropdown" style="width: 200px;">
                     <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:flex; width: 100%; height: 100%; align-items: end;">
-                        <!-- <img fit='contain' src="/image/user.svg" spinner-color="white" style="margin: auto; width: 35px;"></img>
-                        <div style="display:flex; flex-direction: column; width: 75%;" > -->
-                            <span>{{$user->prenom}}</span> 
-                            <span>{{$user->nom}}</span>
+                        <img fit='contain' src="/images/user.svg" spinner-color="white" style="margin: auto; width: 35px;"></img>
+                        <div style="display:flex; flex-direction: column; width: 75%;" >
+                            <span>{{$user->first_name}}</span> 
+                            <span>{{$user->name}}</span>
                         </div>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="    border: 1px solid black; ">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="border: 1px solid black;">
                         <a class="dropdown-item" href="#">Mes informations</a>
                         <a class="dropdown-item" href="#">Documentation</a>
                         <button class="dropdown-item" onClick="logout()">Déconnexion</button>
@@ -94,11 +90,13 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script>
             const collecteId = document.getElementById('collecteId');
-            var collectePoint = null;
-            if(collecteId.value != 0){
-                console.log(collecteId.value);
-                const event = new CustomEvent('value-changed', { detail: collecteId.value });
-                document.getElementById('app').dispatchEvent(event);
+            collectePoint = null;
+            console.log(collecteId.value);
+
+            newCollecteId = localStorage.getItem('id')
+            console.log(newCollecteId);
+            if(collecteId.value != newCollecteId){
+                console.log(newCollecteId);
             }
             function updateVueData() {
                 const event = new CustomEvent('value-changed', { detail: collecteId.value });
@@ -118,8 +116,8 @@
                     await axios.post('/api/collectePointChoose/'+id, {id:id})
                     .then(response => {
                         // console.log('Data posted successfully:', response.data);
-                        collectePoint = response.data
-                        addOption(collectePoint);
+                        collectePoint = response.data;
+                        addOption(response.data);
                     })
                     .catch(error => {
                         if (error.response) {

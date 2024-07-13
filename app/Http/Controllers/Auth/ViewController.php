@@ -21,7 +21,7 @@ class ViewController extends Controller
             return view('client/welcome_login_client', compact('user'));
         } else if($request->server->get("REQUEST_URI") == "/admin"){
             return view('admin/home_admin');
-        } else if($request->server->get("REQUEST_URI") == "/client" || $request->session()->exists('reset')){
+        } else if($request->server->get("REQUEST_URI") == "/client" || $request->session()->exists('reset') || $request->server->get("REQUEST_URI") == "/client?"){
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             return view('client/home_client');

@@ -109,7 +109,7 @@
       </q-list>
     </div>
     <div>
-      <component :is="currentView" v-model:title="id"/>
+      <component :is="currentView" :title="id" @update:title="id"/>
     </div>
   </div>
 </template>
@@ -128,10 +128,15 @@ import TableauDeBord from './components/TableauDeBord.vue';
 const link = ref('home');
 const currentPath = ref(null);
 const collecteId = document.getElementById('collecteId');
-const id = ref(collecteId.value);
+// if(collecteId.value == 0){
+  var id = ref(collecteId.value);
+// } else {
+//   var id = ref(localStorage.getItem('id'));
+// }
 
 function handleValueChanged(event) {
   id.value = event.detail;
+  localStorage.setItem('id', id.value);
 }
 
 onMounted(() => {

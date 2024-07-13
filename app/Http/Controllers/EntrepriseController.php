@@ -22,6 +22,7 @@ class EntrepriseController extends Controller
 
     public function findEntrepriseById(Request $request){
         if (Auth::check()) {
+            dd($request);
             $entreprise = Entreprise::where('id', $request->id)->get();
             return response()->json(['result' => $entreprise]);
         } else {
