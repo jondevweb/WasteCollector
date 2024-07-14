@@ -108,7 +108,7 @@
         </q-expansion-item>
       </q-list>
     </div>
-    <div>
+    <div style="width: 69%;">
       <component :is="currentView" :title="id" @update:title="id"/>
     </div>
   </div>
@@ -128,11 +128,7 @@ import TableauDeBord from './components/TableauDeBord.vue';
 const link = ref('home');
 const currentPath = ref(null);
 const collecteId = document.getElementById('collecteId');
-// if(collecteId.value == 0){
-  var id = ref(collecteId.value);
-// } else {
-//   var id = ref(localStorage.getItem('id'));
-// }
+const id = ref(collecteId.value);
 
 function handleValueChanged(event) {
   id.value = event.detail;
@@ -219,4 +215,19 @@ q-ripple
 
 q-expansion-item:active, q-expansion-item:focus
   overflow-x: hidden
+
+.q-field--standout.q-field--readonly .q-field__control::before
+  border: none 
+
+.q-toggle__inner
+  visibility: hidden
+
+.q-field__label
+  left: 20px
+
+.q-field__input
+  left: 20px
+
+.q-select__dropdown-icon
+  left: 25px
 </style>

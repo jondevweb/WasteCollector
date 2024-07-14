@@ -83,7 +83,7 @@
             </div>
         </header>
         <main style="display:flex; height: 100%;">
-            <div id="app" data-initial-value="" style="height: 100%"></div>
+            <div id="app" data-initial-value="" style="height: 100%; width: 100%"></div>
         </main>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -92,7 +92,6 @@
             const collecteId = document.getElementById('collecteId');
             collectePoint = null;
             console.log(collecteId.value);
-
             newCollecteId = localStorage.getItem('id')
             console.log(newCollecteId);
             if(collecteId.value != newCollecteId){
@@ -106,7 +105,7 @@
                 collecte.forEach(function (cp) {
                     const newOption = document.createElement('option');
                     newOption.value = cp.id;
-                    newOption.text = cp.entreprise.raison_sociale_entreprise + ':' + cp.adresse_collecte_point;
+                    newOption.text = cp.entreprise.raison_sociale_entreprise + ' : ' + cp.adresse_collecte_point;
                     collecteId.add(newOption);
                 });
             }

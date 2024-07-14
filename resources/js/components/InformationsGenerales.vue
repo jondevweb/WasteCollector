@@ -1,7 +1,7 @@
 <template>
   <div>
      <div v-if="now">
-      <q-card class="my-card" flat bordered v-for="item in data">
+      <q-card class="my-card" flat bordered v-for="item in data" style="margin: 5%; width: 50%;">
         <div class="text-h6">Établissement principal</div>
         <q-card-section >
           <q-tab-panel name="entreprise" v-for="pdc in item" :key="pdc.id">

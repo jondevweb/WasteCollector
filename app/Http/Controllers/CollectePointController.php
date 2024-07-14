@@ -8,10 +8,34 @@ use App\Models\Client;
 use App\Models\Role;
 use App\Models\Entreprise;
 use App\Models\CollectePoint;
+use App\Models\Dechet;
+use App\Http\Controllers\PassageController;
+use App\Http\Controllers\DechetController;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class CollectePointController extends Controller
 {
     public function storeCollectePoint(Request $request){
+        if (Auth::check()) {
+            $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+            $idCollecte = DB::table('collectes')->insertGetId([
+                'date_collecte' => $date,
+                'collecte_point_id' => $request->id
+            ]);
+            $cp = collectePoint::find($request->id);
+            $departement = $cp->departement_collecte_point;
+            $passageController = new PassageController();
+            $passageController->storePassage($request, $departement, $idCollecte);
+            $dechet =  Dechet::where('name_dechet', $request->dechet)->first();
+            DB::insert("insert into collectes_dechets_lines (collecte_id, dechet_id, poid_collecte_dechet_line)
+            values (?, ?, ?)", [$idCollecte, $dechet->id, $request->poids]);
+            // $dechetController = new DechetController();
+            // $dechetController->updateDechet($request);
+            return response()->json(['result' => 'Collecte créée avec succés']);
+        } else {
+            return response()->json(['result' => 'Une erreur est survenue pendant la création de la colllecte']);
+        }
 
     }
 
