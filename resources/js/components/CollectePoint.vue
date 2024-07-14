@@ -11,19 +11,48 @@
             </q-field>
             <q-field label="SIRET" stack-label>
               <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.entreprise.siret_entreprise}}</div>
-              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.siret_entreprise}}</q-tooltip>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.entreprise.siret_entreprise}}</q-tooltip>
             </q-field>
             <q-field label="Adresse" stack-label>
-              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.entreprise.adresse_administrative_entreprise}}</div>
-              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.entreprise.adresse_administrative_entreprise}}</q-tooltip>
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.adresse_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.adresse_collecte_point}}</q-tooltip>
             </q-field>
-            <q-field label="Date contrat" stack-label>
-              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ formatDate(pdc.created_at)}}</div>
-              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ formatDate(pdc.created_at)}}</q-tooltip>
-              <div>
-                <q-icon name="event" color="grey" style="padding-right: 50px; font-size: 25px; top: 25px; position: absolute; right: 0px;" />
-              </div>
+            <q-field label="Acsenceur" stack-label >
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.ascenseur_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.ascenseur_collecte_point}}</q-tooltip>
             </q-field>
+            <q-field label="Badge" stack-label>
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.badge_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.badge_collecte_point}}</q-tooltip>
+            </q-field>
+            <q-field label="Batiment" stack-label>
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.batiment_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.batiment_collecte_point}}</q-tooltip>
+            </q-field>
+            <q-field label="Code" stack-label >
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.code_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.code_collecte_point}}</q-tooltip>
+            </q-field>
+            <q-field label="Commentaire" stack-label>
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.commentaire_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.commentaire_collecte_point}}</q-tooltip>
+            </q-field>
+            <q-field label="Hauteur" stack-label>
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.hauteur_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.hauteur_collecte_point}}</q-tooltip>
+            </q-field>
+            <q-field label="Parking" stack-label >
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.parking_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.parking_collecte_point}}</q-tooltip>
+            </q-field>
+            <q-field label="Telephone point de collecte" stack-label>
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.telephone_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.telephone_collecte_point}}</q-tooltip>
+            </q-field>
+            <q-field label="Creneau horaire" stack-label>
+              <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.creneau_collecte_point}}</div>
+              <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.creneau_collecte_point}}</q-tooltip>
+            </q-field>            
             <q-field label="Mail de contact" stack-label>
               <div>
                 <q-icon name="mail" color="grey" style="padding-left: 10px; font-size: 25px; top: 3px;" />

@@ -49,7 +49,7 @@
             active-class="my-menu-link"
             >
             <q-item-section style="margin-left: 13px;">
-              <q-btn align="left"  href="#/conditionsDAccEs" flat label="Conditions d'accès" class="full-width"/>
+              <q-btn align="left"  href="#/collectePoint" flat label="Point de Collectes" class="full-width"/>
             </q-item-section>
           </q-item>
         </q-expansion-item>
@@ -117,7 +117,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import AttestationValorisation from './components/AttestationValorisation.vue';
 import Calendrier from './components/Calendrier.vue';
-import ConditionsDAccEs from './components/ConditionsDAccEs.vue';
+import CollectePoint from './components/CollectePoint.vue';
 import ContactsAssocies from './components/ContactsAssocies.vue';
 import DonneesBrutes from './components/DonneesBrutes.vue';
 import InformationsGenerales from './components/InformationsGenerales.vue';
@@ -147,7 +147,7 @@ const routes = {
   '/': TableauDeBord,
   '/informationsGenerales': InformationsGenerales,
   '/contactsAssocies': ContactsAssocies,
-  '/conditionsDAccEs': ConditionsDAccEs,
+  '/collectePoint': CollectePoint,
   '/calendrier': Calendrier,
   '/donneesBrutes': DonneesBrutes,
   '/attestationValorisation': AttestationValorisation,
