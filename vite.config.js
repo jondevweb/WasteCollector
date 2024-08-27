@@ -4,7 +4,17 @@ import laravel from 'laravel-vite-plugin';
 import path from 'path';
 import { defineConfig } from 'vite';
  
-export default defineConfig({
+export default defineConfig({  
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Example: create a chunk for vendor libraries
+          vendor: ['vue']
+        }
+      }
+    }
+  },
   plugins: [
     vue({template: { transformAssetUrls }}),
     quasar({

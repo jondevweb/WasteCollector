@@ -3,7 +3,7 @@
      <div v-if="now">
       <q-card class="my-card" flat bordered v-for="item in data" style="margin: 5%; width: 50%;">
         <div class="text-h6">Établissement principal</div>
-        <q-card-section >
+        <q-card-section>
           <q-tab-panel name="entreprise" v-for="pdc in item" :key="pdc.id">
             <q-field label="Raison sociale" stack-label >
               <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.entreprise.raison_sociale_entreprise}}</div>
@@ -61,7 +61,7 @@
               <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">{{ pdc.user.email_client}}</q-tooltip>
             </q-field>
             <q-field label="Téléphone" stack-label>
-              <div >
+              <div>
                 <q-icon name="phone" color="grey" style="padding-left: 10px; font-size: 25px; top: 3px;" />
               </div>
               <div class="self-center full-width no-outline" tabindex="0" style="padding-left: 10px">{{ pdc.user.telephone_client}}</div>
