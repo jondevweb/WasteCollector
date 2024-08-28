@@ -230,4 +230,10 @@ q-expansion-item:active, q-expansion-item:focus
 
 .q-select__dropdown-icon
   left: 25px
+
+.q-field__native[aria-label="poids en gramme"]
+  text-align: right
+
+.q-menu
+  text-align: center
 </style>
