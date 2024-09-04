@@ -66,7 +66,7 @@
             style="margin-left: -42px;"
             >
             <q-item-section>
-              <q-btn align="left"  href="#/calendrier" flat label="Calendrier" class="full-width"/>
+              <q-btn align="left"  href="#/calendrier" flat label="Préparer" class="full-width"/>
             </q-item-section>
           </q-item>
           <q-item
@@ -78,7 +78,7 @@
             style="margin-left: -42px;"
             >
             <q-item-section>
-              <q-btn align="left"  href="#/donneesBrutes" flat label="Données brutes" class="full-width"/>
+              <q-btn align="left"  href="#/donneesBrutes" flat label="Récapitulatif" class="full-width"/>
             </q-item-section>
           </q-item>
           <q-expansion-item :content-inset-level="0.5" label="Documents de traçabilité" style="margin-left: -25px;">
@@ -127,7 +127,7 @@ import TableauDeBord from './components/TableauDeBord.vue';
 
 const link = ref('home');
 const currentPath = ref(null);
-const collecteId = document.getElementById('collecteId');
+const collecteId = ref(localStorage.getItem('id'));
 const id = ref(collecteId.value);
 
 function handleValueChanged(event) {
@@ -236,4 +236,9 @@ q-expansion-item:active, q-expansion-item:focus
 
 .q-menu
   text-align: center
+
+.q-table__control>.q-field>.q-field__inner>.q-field__control>.q-field__control-container
+  left: 20px
+  position: relative
+  top: 4px
 </style>

@@ -17,9 +17,7 @@ export default defineConfig({
   },
   plugins: [
     vue({template: { transformAssetUrls }}),
-    quasar({
-      sassVariables: 'resources/sass/quasar-variables.scss'
-    }),
+    quasar(),
     laravel({
       input: ['resources/js/app.js', 'resources/css/app.css'],
       refresh: true,

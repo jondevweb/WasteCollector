@@ -65,8 +65,9 @@ class CollectePointController extends Controller
         }
     }
 
-    public function findCollectePointByUser($id){
-        $user = Role::find(2)->client()->where('user_id', $id)->first();
+    public function findCollectePointByUser(Request $request){
+        // dd($request->session()->get('client')["client"]);
+        $user = Role::find(2)->client()->where('user_id', $request->session()->get('client')["client"])->first();
         $collectePoint = Client::find($user->id)->collectePoint;
         foreach($collectePoint as $cp){
             $cp->entreprise = Entreprise::find($cp->entreprise_id);

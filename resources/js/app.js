@@ -9,7 +9,6 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import fontawesome from './plugins/fontawesome';
 
-
 const app = createApp(App);
 fontawesome(app);
 app.use(Quasar, {

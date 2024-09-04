@@ -57,7 +57,7 @@
                 </form>
             </div>
             <div style="width: 60%; display:flex; justify-content: end;"> 
-                <div class="input-group" style="width: 60%" onClick="collectePointArray({{$user->id}})">
+                <div class="input-group" style="width: 60%" onClick="collectePointArray()">
                     <select class="custom-select" id="collecteId" onchange="updateVueData()" style="height: 100%; background: #c5ceae;" > 
                     @if (session()->get('client')['roles'] = 'client')
                         <option selected  value="0">Point de collecte</option>
@@ -91,12 +91,8 @@
         <script>
             const collecteId = document.getElementById('collecteId');
             collectePoint = null;
-            console.log(collecteId.value);
             newCollecteId = localStorage.getItem('id')
-            console.log(newCollecteId);
-            if(collecteId.value != newCollecteId){
-                console.log(newCollecteId);
-            }
+            collectePointArray()
             function updateVueData() {
                 const event = new CustomEvent('value-changed', { detail: collecteId.value });
                 document.getElementById('app').dispatchEvent(event);
@@ -108,11 +104,13 @@
                     newOption.text = cp.entreprise.raison_sociale_entreprise + ' : ' + cp.adresse_collecte_point;
                     collecteId.add(newOption);
                 });
+                if(newCollecteId != 0){
+                    collecteId.value = newCollecteId;
+                }
             }
-            async function collectePointArray(id) {
-                event.preventDefault(); 
+            async function collectePointArray(){
                 if(collectePoint == null){
-                    await axios.post('/api/collectePointChoose/'+id, {id:id})
+                    await axios.post('/api/collectePointChoose')
                     .then(response => {
                         // console.log('Data posted successfully:', response.data);
                         collectePoint = response.data;

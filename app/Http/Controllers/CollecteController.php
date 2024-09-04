@@ -43,7 +43,7 @@ class CollecteController extends Controller
             }
             return response()->json(['result' => 'Problème ave le point de collecte']);
         } else {
-            return response()->json(['result' => 'Une erreur est survenue pendant la création de la colllecte']);
+            return response()->json(['result' => 'Une erreur est survenue pendant la création de la collecte']);
         }
 
     }
@@ -52,63 +52,28 @@ class CollecteController extends Controller
 
     }
 
-    public function indexCollecte(){
+    public function indexCollecte(Request $request){
         if (Auth::check()) {
             $collecteArray = [];
-            $pdcArray = [];
             $oneCollecteArray = '';
-            $onePdcArray = '';
-            $pdcId = null;
-            $collectes = Collecte::all();
-            $collecteDechetsLines = DB::table('collectes_dechets_lines')->get();
-            foreach($collectes as $collecte){
-                
-                foreach($collecteDechetsLines as $cdl){
-                    if($collecte->id == $cdl->collecte_id){
-                        dd($collecte->collecte_point_id);
-                        if($pdcId != null && $pdcId != $collecte->collecte_point_id){
-                            $collectePoint = CollectePoint::find($collecte->collecte_point_id);
-                            $onePdcArray = array($collectePoint->adresse_collecte_point => $pdcArray);
-                            array_push($collecteArray, $onePdcArray);
-                            $pdcArray = [];
-                        }
-                        $pdcId = $collecte->collecte_point_id;
-                        $dechets = Dechet::find($cdl->dechet_id);
-                        $oneCollecteArray = array("date"=> $collecte->date_collecte,"dechet" => $dechets->name_dechet,"poid" => $cdl->poid_collecte_dechet_line);   
-                        array_push($pdcArray, $oneCollecteArray);
-                        $oneCollecteArray = '';         
-                    };
-                };  
+            $collecteWithPdcId = Collecte::where('collecte_point_id', '=', $request->id)->get();
+            foreach($collecteWithPdcId as $collecte){
+                $collecteDechetsLines = DB::table('collectes_dechets_lines') ->where('collecte_id', '=', $collecte->id)->get();
+                $dechet = Dechet::where('id','=', $collecteDechetsLines[0]->dechet_id)->get("name_dechet");
+                $oneCollecteArray = array(
+                    array("date"=> $collecte->date_collecte,
+                          "dechet" => $dechet[0]->name_dechet,
+                          "poid" => $collecteDechetsLines[0]->poid_collecte_dechet_line)
+                );
+                array_push($collecteArray, $oneCollecteArray[0]);
+                $oneCollecteArray = ''; 
             }
-            dd($collecteArray);
             return response()->json(['result' => $collecteArray]);
         } else {
             return response()->json(['result' => 'Une erreur est survenue pendant la création de la colllecte']);
         }
 
     }
-
-
-        //  $collecteArray = [];
-        //     $oneCollecteArray = '';
-        //     $collectes = Collecte::all();
-        //     $collecteDechetsLines = DB::table('collectes_dechets_lines')->get();
-        //     foreach($collectes as $collecte){
-        //         $collectePoint = CollectePoint::find($collecte->collecte_point_id);
-        //         foreach($collecteDechetsLines as $cdl){
-        //             if($collecte->id == $cdl->collecte_id){
-        //                $dechets = Dechet::find($cdl->dechet_id);
-        //                 $oneCollecteArray = array(
-        //                     array("date"=> $collecte->date_collecte,"dechet" => $dechets->name_dechet,"poid" => $cdl->poid_collecte_dechet_line,"adress" => $collectePoint->adresse_collecte_point)
-        //                 );
-        //                 // dd($oneCollecteArray[0]);
-        //             //    array_push($oneCollecteArray, $collecte->date_collecte); 
-        //             //    array_push($oneCollecteArray, $dechets->name_dechet);   
-        //             //    array_push($oneCollecteArray, $cdl->poid_collecte_dechet_line);   
-        //             //    array_push($oneCollecteArray, $collectePoint->adresse_collecte_point);   
-        //                array_push($collecteArray, $oneCollecteArray[0]);
-        //                $oneCollecteArray = '';         
-        //             };
 
     public function findCollecteById(){
 

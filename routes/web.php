@@ -28,7 +28,7 @@ Route::post('/sanctum/token', [TokenController::class, 'createToken']);
 
 Route::prefix('api')->middleware('auth:sanctum')->group(function () {
     Route::post('/collectePoint/{id}', [CollectePointController::class, 'findCollectePointById']); 
-    Route::post('/collectePointChoose/{id}', [CollectePointController::class, 'findCollectePointByUser']); 
+    Route::post('/collectePointChoose', [CollectePointController::class, 'findCollectePointByUser']); 
     Route::post('/createCollecte', [CollecteController::class, 'storeCollecte']); 
     Route::post('/dechet', [DechetController::class, 'indexDechet']); 
     Route::post('/entreprise/{id}', [EntrepriseController::class, 'findEntrepriseById']); 
