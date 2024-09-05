@@ -10,9 +10,9 @@ use Carbon\Carbon;
 
 class PassageController extends Controller
 {
-    public function storePassage(Request $request, int $departement, int $idCollecte){
-        if (Auth::check()) {
-            $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+    public function storePassage(Array $request, int $departement, int $idCollecte){
+        if (Auth::check()) {                       
+            $date = Carbon::createFromFormat('d/m/Y', $request["date"])->format('Y-m-d');
             $transporteur = Transporteur::where('immatriculation_transporteur',$departement)->get('id');
             Passage::create([
                 'date_debut_passage' => $date,

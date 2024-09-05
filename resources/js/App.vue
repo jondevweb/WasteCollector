@@ -241,4 +241,7 @@ q-expansion-item:active, q-expansion-item:focus
   left: 20px
   position: relative
   top: 4px
+
+.q-list--bordered
+  border: none
 </style>

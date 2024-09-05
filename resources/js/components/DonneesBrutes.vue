@@ -14,6 +14,8 @@
             row-key="date"
             flat bordered
             rows-per-page-label="Lignes par page:"
+            :pagination="pagination"
+            :rows-per-page-options="[]"
             :pagination-label="customLabels.pagination"
           />
         </div>
@@ -34,6 +36,10 @@ const data = ref(null);
 const customLabels = {
   pagination: (start, end, total) => `${start}-${end} sur ${total}`
 }
+const pagination = {
+  page: 1,
+  rowsPerPage: 7
+};
 
 const props = defineProps({
   title: String
@@ -47,39 +53,62 @@ const columns = [
     align: 'left',
     field: row => row.date,
     format: val => `${val}`,
-    sortable: true
+    sortable: false,
   },
-  { name: 'dechet', align: 'center', label: 'Dechets', field: 'dechet', sortable: true },
-  { name: 'poid', label: 'Poids (g)', field: 'poid', sortable: true },
+  { name: 'dechet', align: 'center', label: 'Dechets', field: 'dechet', sortable: false },
+  { name: 'poid', label: 'Poids (g)', field: 'poid', sortable: false },
 ];
 
 const rows = ref([]);
 
-watch(() => props.title, (newVal) => {
-  props.title = newVal
-  if(props.title == 0){
-    document.getElementById("resultMessage").style.color = "red";
-    result.value = "Choissisez un point de collecte";
-  } else {
-    fetchData(props.title)
-  }
+
+
+watch(() => data.value, (newVal) => {
+  console.log("aa" + newVal);
+  data.value = newVal;
+  fetchData(props.title);
 })
 
 watch(() => rows.value, (newVal) => {
+  console.log("bb" + rows.value);
   newVal.forEach(function (collecte) {
     collecte["date"] = formatDate(collecte["date"]);
   });
   rows.value = newVal
 })
 
-const now = computed(() => {
+watch(() => props.title, (newVal) => {
   console.log(props.title);
-  if(props.title != 0){
+  if(props.title == 0){
+    document.getElementById("resultMessage").style.color = "red";
+    result.value = "Choissisez un point de collecte";
+    props.title = newVal
+  } else {
+    console.log("gg" + rows.value );
+    console.log("gg" + props.title );
     result.value = "";
+
+    fetchData(props.title);
+    
+    props.title = newVal
+    rows.value.forEach(function (collecte) {
+    collecte["date"] = formatDate(collecte["date"]);
+  });
+  }
+})
+
+
+
+const now = computed(() => {
+  console.log(rows.value.length);
+  if(props.title != 0) {
+
     if(rows.value.length == 0){
-      fetchData(props.title)
-    }
-    selectPdcById(props.title);
+    console.log(localStorage.getItem('id'));
+    selectPdcById(props.title);}
+    
+    
+    result.value = "";
     return true
   } else {
     result.value = "Choissisez un point de collecte";
@@ -97,7 +126,7 @@ async function fetchData(id) {
   if(id > 0){
     await axios.post('/api/indexCollecte', {id:id})
     .then(response => {
-        // console.log('Data posted successfully:', response.data);
+        console.log('Data posted successfully:', response.data);
         const data = response.data.result;
         rows.value = [];
         data.forEach(function (collecte) {
@@ -123,6 +152,8 @@ async function fetchData(id) {
 
 
 async function selectPdcById(id) {
+  console.log("ii" + rows.value );
+  console.log("ii" + props.title );
   if(id > 0){
     await axios.post('/api/collectePoint/$id', {id:id})
     .then(response => {
