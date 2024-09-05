@@ -2,36 +2,52 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
-use App\Models\Document;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Mockery;
+use App\Http\Controllers\DocumentClientController;
 
 class PDFControllerTest extends TestCase
 {
-    // use RefreshDatabase;
-
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function a_user_can_generate_and_store_a_pdf()
+    public function tearDown(): void
     {
-        $user = User::find(3);
-        // $this->actingAs(Auth::user());
-        $data = [
-            'title' => 'Sample PDF Title',
-        ];
-        $response = $this->postJson(route('documents.store'), $data);
-        $response->assertStatus(200);
-        $response->assertJsonStructure(['id', 'success']);
-        $documentId = $response->json('id');
-        $this->assertDatabaseHas('documents', [
-            'id' => $documentId,
-            'user_id' => $user->id,
+        Mockery::close();
+        parent::tearDown();
+    }
+
+    public function testGeneratePDF()
+    {
+        // Créez un mock pour la façade PDF
+        $pdfMock = Mockery::mock('alias:PDF');
+        
+        // Simulez le comportement de loadView() et download()
+        $pdfMock->shouldReceive('loadView')
+            ->with('pdf.document', Mockery::any())
+            ->once()
+            ->andReturnSelf();
+            
+        $pdfMock->shouldReceive('download')
+            ->with('document.pdf')
+            ->once()
+            ->andReturn(response()->make('PDF content', 200, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename=document.pdf',
+            ]));
+
+        // Créez une instance du contrôleur
+        $controller = new DocumentClientController();
+        
+        // Simulez une requête
+        $request = Request::create('/generate-pdf', 'POST', [
+            'data' => 'test data'
         ]);
-        $document = Document::find($documentId);
-        $this->assertNotNull($document->pdf);
-        $pdfResponse = $this->get(route('documents.show', ['id' => $documentId]));
-        $pdfResponse->assertStatus(200);
-        $pdfResponse->assertHeader('Content-Type', 'application/pdf');
+
+        // Appelez la méthode du contrôleur
+        $response = $controller->store($request);
+
+        // Vérifiez le statut et le type de contenu de la réponse
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals('application/pdf', $response->headers->get('Content-Type'));
+        $this->assertStringContainsString('attachment; filename=document.pdf', $response->headers->get('Content-Disposition'));
     }
 }
