@@ -26,7 +26,7 @@ Route::prefix('/client')->group(function () {
 Route::post('/resetPassword', [PasswordResetController::class, 'resetPassword'])->name('resetPassword'); 
 Route::post('/sanctum/token', [TokenController::class, 'createToken']);
 
-Route::prefix('api')->middleware('auth:sanctum')->group(function () {
+Route::prefix('api')->middleware('auth:sanctum', 'throttle:api')->group(function () {
     Route::post('/collectePoint/{id}', [CollectePointController::class, 'findCollectePointById']); 
     Route::post('/collectePointChoose', [CollectePointController::class, 'findCollectePointByUser']); 
     Route::post('/createCollecte', [CollecteController::class, 'storeCollecte']); 
