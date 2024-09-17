@@ -78,7 +78,7 @@ class CollecteController extends Controller
         }
     }
 
-    public function findCollecteById(){
-
+    public function findCollecteById(int $id){
+        return $collecteWithPdcId = Collecte::where('collecte_point_id', '=', $id)->orderBy('date_collecte', 'desc')->get();
     }
 }

@@ -10,7 +10,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           // Example: create a chunk for vendor libraries
-          vendor: ['vue']
+          vendor: ['vue', 'axios', 'html2canvas', 'jspdf']
         }
       }
     }

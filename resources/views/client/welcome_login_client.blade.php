@@ -91,8 +91,9 @@
         <script>
             const collecteId = document.getElementById('collecteId');
             collectePoint = null;
-            newCollecteId = localStorage.getItem('id')
-            collectePointArray()
+            newCollecteId = localStorage.getItem('id');
+            collectePointArray();
+            console.log(collecteId.value);
             function updateVueData() {
                 const event = new CustomEvent('value-changed', { detail: collecteId.value });
                 document.getElementById('app').dispatchEvent(event);

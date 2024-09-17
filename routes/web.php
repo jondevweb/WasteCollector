@@ -35,14 +35,17 @@ Route::prefix('api')->middleware('auth:sanctum', 'throttle:api')->group(function
     Route::post('/indexCollecte', [CollecteController::class, 'indexCollecte']); 
     Route::post('/login', [LoginController::class, 'login'])->name('login'); 
     Route::post('/logout' , [LoginController::class, 'logout'])->name('logout');
-    
+    Route::get('/generate-pdf', [DocumentClientController::class, 'storeDocument']);
 });
 
 Route::get('/tasks', function () {
     return view('admin/tasks', ['tasks' => Administrateur::all()]);
 });
+Route::get('/generate-pdf', [DocumentClientController::class, 'indexDocument']);
+Route::get('/generate-pdf2', [DocumentClientController::class, 'indexDocument2']);
+Route::get('/generate-pdf3', [DocumentClientController::class, 'indexDocument3']);
+Route::post('/upload-image', [DocumentClientController::class, 'uploadImage']);
 
-Route::get('/generate-pdf', [DocumentClientController::class, 'generatePDF']);
 
 Route::get('/upload', [DocumentClientController::class, 'create']);
 Route::post('/documents', [DocumentClientController::class, 'store'])->name('documents.store');
