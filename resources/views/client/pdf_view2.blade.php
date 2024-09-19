@@ -56,18 +56,18 @@
                 const imgData = canvas.toDataURL('image/png');
                 // document.getElementById('captureButton').addEventListener('click', function() {
                     // Générer le PDF avec jsPDF
-                    const { jsPDF } = window.jspdf;
-                    const pdf = new jsPDF('p', 'pt', 'a4'); // Format A4
+                    // const { jsPDF } = window.jspdf;
+                    // const pdf = new jsPDF('p', 'pt', 'a4'); // Format A4
 
-                    // Ajouter l'image dans le PDF
-                    const imgWidth = 595.28;  // Largeur du PDF (A4 en points)
-                    const imgHeight = canvas.height * imgWidth / canvas.width; // Calculer la hauteur
+                    // // Ajouter l'image dans le PDF
+                    // const imgWidth = 595.28;  // Largeur du PDF (A4 en points)
+                    // const imgHeight = canvas.height * imgWidth / canvas.width; // Calculer la hauteur
 
-                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                    pdf.save('capture-hidden.pdf');  // Sauvegarder en PDF
+                    // pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                    // pdf.save('capture-hidden.pdf');  // Sauvegarder en PDF
 
-                    // Supprimer le contenu HTML caché après la capture
-                    hiddenDiv.remove();
+                    // // Supprimer le contenu HTML caché après la capture
+                    // hiddenDiv.remove();
                 });
             });
         // });

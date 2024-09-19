@@ -1,5 +1,5 @@
 <template>
-  <div style="position: absolute; top: 10px;">
+  <div style="position: fixed; top: 12px; z-index: 99;">
     <input type="checkbox" class="" id="checkedButtonMenu" v-model="isChecked" autocomplete="off" @click="handleValueChanged(changeValueButton.value)" style="visibility: hidden">
     <label class="btn btn-outline-secondary" for="checkedButtonMenu" >
       <i class="fas fa-bars" style="font-size: 1.5rem;"></i>

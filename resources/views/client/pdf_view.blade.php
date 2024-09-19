@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Laravel PDF</title>
+        <title>Attestation de valorisation</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <style>
             body {
                 margin: 0px;}
-            .content {
-                font-size: 0.7rem;
-                border: 1px black solid;
-                width: 794px; /* Largeur d'une feuille A4 en pixels */
-                height: 1123px; /* Hauteur d'une feuille A4 en pixels */
-                padding: 5px;
-                box-sizing: border-box;}
+            h1{
+                font-size: 1.4rem;
+                line-height: normal;}
+            h2{
+                font-size: 1.2rem;
+                line-height: normal;}
+            h3{
+                font-size: 1rem;
+                line-height: normal;}
             th, td {
                 border-top: 1px solid;}
             table {
@@ -31,16 +33,25 @@
                 border-bottom: 1px black solid;}
             .bottom1{
                 bottom: 1px;}
+            .bottom5{
+                bottom: 5px;}
+            .bottom12{
+                bottom: 12px;}
             .bLeft{
                 border-left: 1px solid;}
             .bRight{
                 border-right: 1px solid;}
             .bTop{
                 border-top: 1px solid black;}
+            .content {
+                font-size: 0.7rem;
+                border: 1px black solid;
+                width: 794px; /* Largeur d'une feuille A4 en pixels */
+                height: 1123px; /* Hauteur d'une feuille A4 en pixels */
+                padding: 5px;
+                box-sizing: border-box;}
             .dflex{
                 display: flex;}
-            .height2{
-                height: 25%;}
             .height15{
                 height: 15px;}
             .height20{
@@ -71,10 +82,12 @@
                 line-height: 5px;}
             .pAbsolute{
                 position: absolute;}
+            .padding013{
+                padding: 0px 0 13px 5px;}
             .padding015{
                 padding: 0px 0 15px 5px;}
             .pad13r20{
-                padding: 13px 0 5px 0;
+                padding: 20px 0 5px 0;
                 right: 20px;}
             .padding50 {
                 padding: 0 5px;}
@@ -92,6 +105,8 @@
                 padding-top: 8px;}
             .right0{
                 right: 0;}
+            .right3{
+                right: 3px;}
             .right15{
                 right: 15px;}
             .right180{
@@ -108,8 +123,10 @@
                 text-align: left;}
             .top3{
                 top: 3px;}
-            .top11{
-                top: 11px;}
+            .top8{
+                top: 8px;}
+            .top17{
+                top: 17px;}
             .width5{
                 width: 5%;}
             .width10{
@@ -139,8 +156,8 @@
         <div class="content" id="captureArea">
             <header>
                 <div class="bBottom tAlign">
-                    <div>
-                        <img />
+                    <div class="pAbsolute">
+                        <img class="pRelative" style="width: 60px; top: 30px; left: 15px;" src="/images/LogoSample.jpg" alt="logo waste collector"/>
                     </div>
                     <h1>Attestation de valorisation de déchets de papier/carton, métal, plastique, verre et bois prévue par
                     l’article D. 543-284 du code de l’environnement</h1>
@@ -150,50 +167,72 @@
                     <div class="padding50 width50 bRight">
                         <h3>Attestation n° :  
                             @isset($data)
-                             {{ $data['title'] }}
+                                {{ $data['title'] }}
                             @else    
                                 Pas de titre disponible
                             @endif
                         </h3>
                     </div>
                     <div class="padding50 width50">
-                        <h3>Année : </h3>
+                        <h3>Année :  
+                            @isset($data)
+                                {{ $data['year'] }}
+                            @else    
+                                Pas de titre disponible
+                            @endif</h3>
                     </div>
                 </div>
             </header>
             <main class="bTop bBottom">
                 <section>
-                    <div class="bgroundLGray padding015">
+                    <div class="bgroundLGray padding013">
                         <h2 style="margin: 0px 0 0px 0px;">1. Emetteur de l’attestation</h2>
                     </div>
                     <div class="padding50 bTop bBottom dflex">
-                        <div class="padding50 width50 lheight">
-                            <div class="height2">
-                                <p>Nom :</p>
-                                <p>Adresse :</p>
+                        <div class="padding50 width50 lheight ptop8">
+                            <div>
+                                @isset($data)
+                                <p>Nom :
+                                    {{ $data['nom'] }}
+                                </p>
+                                <p>Adresse :
+                                    {{ $data['adresse'] }}
+                                </p>
                             </div>
                             <div>
-                                <p>N° SIRET : </p>
-                                <p>Tél : </p>
-                                <p>Mél ou Fax :</p>
-                                <p>Personne à contacter :</p>
+                                <p>N° SIRET : 
+                                    {{ $data['siret'] }}
+                                </p>
+                                <p>Tél : 
+                                    {{ $data['tel'] }}
+                                </p>
+                                <p>Mél ou Fax :
+                                    {{ $data['mail'] }}
+                                </p>
+                                <p>Personne à contacter :
+                                    {{ $data['contact'] }}
+                                </p>
+                                @else    
+                                    <p>Pas de donnée!</p>
+                                @endif
                             </div>
                         </div>
                         <div class="padding50 width50">
-                            <div class="padding50">
+                            <div class="padding50" style="height: 85px">
                                 <div>
                                     <input type="checkbox" id="exploitant" name="emetteur" value="exploitant" class="width70 pRelative"/>
                                     <label for="exploitant">Exploitant d’une installation de valorisation</label>
                                 </div>
                                 <p>ou</p>
-                                <div>
+                                <div style="bottom: 30px;"
+                                class="pRelative">
                                     <input type="checkbox" id="intermediaire" name="emetteur" value="intermediaire"  class="pbottom width70 pRelative" />
                                     <label for="intermediaire" class="label width250">Intermédiaire assurant une activité de collecte, de tri,
                                     de négoce de déchets en vue de leur valorisation</label>
                                 </div>
                             </div>
                             <div class="dflex lheight padding50">
-                                <div class="accolade bTop dflex pRelative">
+                                <div class="accolade bTop dflex pRelative bottom5">
                                     <p>1.A</p>
                                     <img class="accolade-parenthèse height70 right0" src="/images/parenthesis.png" alt="accolade parenthèse, regrouppement d'information" />
                                 </div>
@@ -208,20 +247,36 @@
                     </div>
                 </section>
                 <section>
-                    <div class="bgroundLGray padding015">
+                    <div class="bgroundLGray padding013">
                         <h2 style="margin: 0px 0 0px 0px;">2. Origine des déchets</h2>
                     </div>
                     <div class="padding50 bTop bBottom dflex">
-                        <div class="padding50 width50 lheight">
-                            <div class="height2">
-                                <p>Nom :</p>
-                                <p>Adresse :</p>
+                        <div class="padding50 width50 lheight ptop8">
+                            <div>
+                                @isset($data)
+                                <p>Nom :
+                                    {{ $data['nom'] }}
+                                </p>
+                                <p>Adresse :
+                                    {{ $data['adresse'] }}
+                                </p>
                             </div>
                             <div>
-                                <p>N° SIRET : </p>
-                                <p>Tél : </p>
-                                <p>Mél ou Fax :</p>
-                                <p>Personne à contacter :</p>
+                                <p>N° SIRET : 
+                                    {{ $data['siret'] }}
+                                </p>
+                                <p>Tél : 
+                                    {{ $data['tel'] }}
+                                </p>
+                                <p>Mél ou Fax :
+                                    {{ $data['mail'] }}
+                                </p>
+                                <p>Personne à contacter :
+                                    {{ $data['contact'] }}
+                                </p>
+                                @else    
+                                    <p>Pas de donnée!</p>
+                                @endif
                             </div>
                         </div>
                         <div class="padding50 width50">
@@ -239,7 +294,7 @@
                     </div>
                 </section>
                 <section>
-                    <div class="bgroundLGray padding015">
+                    <div class="bgroundLGray padding013">
                         <h2 style="margin: 0px 0 0px 0px;">3. Flux de déchets pris en charge</h2>
                     </div>
                     <div class="padding50 bTop bBottom dflex">
@@ -250,7 +305,7 @@
                                     <p class="pbottom">
                                         <span class="span1">3.B</span>
                                     </p>
-                                    <input class="pbottom" type="checkbox" id="tries" name="flux" value="tries" />
+                                    <input class="pbottom right3 pRelative bottom12" type="checkbox" id="tries" name="flux" value="tries"/>
                                     <label for="tries">Triés (une seule des 5 natures principales de déchets -
                                     cocher la case correspondante en 3.D)</label>
                                 </div>
@@ -258,7 +313,7 @@
                                     <p class="pbottom">
                                         <span class="span1">3.C</span>
                                     </p>
-                                    <input class="pbottom" type="checkbox" id="melange" name="flux" value="melange" />
+                                    <input class="pbottom right3 pRelative bottom12" type="checkbox" id="melange" name="flux" value="melange"/>
                                     <label for="melange">En mélange (deux ou plusieurs natures de déchets -
                                     cocher les cases correspondantes en 3.D)</label>
                                 </div>
@@ -297,7 +352,7 @@
                     </div>
                 </section>
                 <section>
-                    <div class="bgroundLGray padding015">
+                    <div class="bgroundLGray padding013">
                         <h2 style="margin: 0px 0 0px 0px;">4. Quantités de déchets prises en charge <span class="span2">(exprimées en tonne)</span></h2> 
                     </div>
                     <div class="padding50 bTop bBottom">
@@ -305,70 +360,70 @@
                             <p class="pAbsolute right180">Modalité de quantification : </p>
                         </div>
                         <div class="dflex jusContSA widthSpecial bBottom">
-                            <div class="dflex width35">
-                                <p class="width30">4.A</p>
-                                <input type="checkbox" id="collectees/receptionnees" name="prises" value="collectees/receptionnees" />
-                                <label for="collectees/receptionnees" class="label3 pleft10">Collectées/réceptionnées</label>
+                            <div class="dflex width35 pRelative">
+                                <p class="width30 pRelative top8">4.A</p>
+                                <input type="checkbox" id="collectees/receptionnees" name="prises" value="collectees/receptionnees" class="pRelative"/>
+                                <label for="collectees/receptionnees" class="pleft10 pRelative top8">Collectées/réceptionnées</label>
                                 <span class="label3" style="padding-left: 30px">:</span>
                             </div>
-                            <div class="width10">
+                            <div class="width10 pRelative top8">
                                 <p>t</p>
                             </div>
                             <div class="ptop8 width20">
                                 <input type="checkbox" id="pesees" name="modalite" value="pesees" />
                                 <label for="pesees" class="pleft15 bottom pRelative left5">Quantités pesées</label>
                             </div>
-                            <p class="width5">ou</p>
+                            <p class="width5 top8 pRelative">ou</p>
                             <div class="ptop8 width20">
                                 <input type="checkbox" id="estimees" name="modalite" value="estimees" />
                                 <label for="estimees" class="bottom1 pRelative pleft15">Quantités estimées</label>
                             </div>
                         </div>
                         <div class="dflex jusContSA widthSpecial bBottom bTop pRelative" style="line-height: 0px">
-                            <div class="width35 dflex">
+                            <div class="width35 dflex top8 pRelative">
                                 <div>
                                     <div class="dflex">
-                                        <p class="width30">4.B</p>
-                                        <input type="checkbox" id="transferees" name="prises" value="transferees" />
-                                        <label for="transferees" class="label3 pleft10">Transférées</label>
+                                        <p class="width30 pRelative top8">4.B</p>
+                                        <input type="checkbox" id="transferees" name="prises" value="transferees" class="pRelative"/>
+                                        <label for="transferees" class="pleft10 pRelative top8">Transférées</label>
                                     </div>
                                     <div class="dflex">
-                                        <p class="width30">4.C</p>
-                                        <input type="checkbox" id="valorisees" name="prises" value="valorisees" />
-                                        <label for="valorisees" class="label3 pleft10">Valorisées</label>
+                                        <p class="width30 pRelative top8">4.C</p>
+                                        <input type="checkbox" id="valorisees" name="prises" value="valorisees" class="pRelative"/>
+                                        <label for="valorisees" class="pleft10 pRelative top8">Valorisées</label>
                                     </div>
                                 </div>
-                                <img class="width30 height44 left40 pRelative" style="transform: rotate(180deg)" src="/images/parenthesis.png" alt="accolade parenthèse, regrouppement d'information" />
-                                <span class="label3 pleft60">:</span>
+                                <img class="width30 height44 left40 pRelative bottom5" style="transform: rotate(180deg)" src="/images/parenthesis.png" alt="accolade parenthèse, regrouppement d'information" />
+                                <span class="label3 pleft60 bottom5 pRelative">:</span>
                             </div>
                             <div class="width10">
-                                <p class="label3 top11 pRelative">t</p>
+                                <p class="label3 top17 pRelative">t</p>
                             </div>
                             <div class="ptop8 width20 top3 pRelative" >
                                 <input type="checkbox" id="pesees" name="modalite" value="pesees" />
                                 <label for="pesees" class="pleft15 bottom pRelative left5">Quantités pesées</label>
                             </div>
-                            <p class="width5 top11 pRelative">ou</p>
+                            <p class="width5 top17 pRelative">ou</p>
                             <div class="ptop8 width20 top3 pRelative"> 
                                 <input type="checkbox" id="estimees" name="modalite" value="estimees" />
                                 <label for="estimees" class="bottom1 pRelative pleft15">Quantités estimées</label>
                             </div>
                         </div>
                         <div class="dflex jusContSA widthSpecial bTop">
-                            <div class="dflex width35">
-                                <p class="width30">4.D</p>
-                                <input type="checkbox" id="refus" name="prises" value="refus" />
-                                <label for="refus"  class="label3 pleft10">Refus et freinte</label>
+                            <div class="dflex width35 pRelative">
+                                <p class="width30 pRelative top8">4.D</p>
+                                <input type="checkbox" id="refus" name="prises" value="refus" class="pRelative"/>
+                                <label for="refus" class="label3 pleft10 pRelative top3">Refus et freinte</label>
                                 <span class="label3" style="padding-left: 73px">:</span>
                             </div>
-                            <div class="width10">
+                            <div class="width10 top8 pRelative">
                                 <p>t</p>
                             </div>
                             <div class="ptop8 width20">
                                 <input type="checkbox" id="pesees" name="modalite" value="pesees" />
                                 <label for="pesees" class="pleft15 bottom pRelative left5">Quantités pesées</label>
                             </div>
-                            <p class="width5">ou</p>
+                            <p class="width5 top8 pRelative">ou</p>
                             <div class="ptop8 width20">
                                 <input type="checkbox" id="estimees" name="modalite" value="estimees" />
                                 <label for="estimees" class="bottom1 pRelative pleft15">Quantités estimées</label>
@@ -377,7 +432,7 @@
                     </div>
                 </section>
                 <section>
-                    <div class="bgroundLGray padding015">
+                    <div class="bgroundLGray padding013">
                         <h2 style="margin: 0px 0 0px 0px;">5. Destinations de valorisation finale des déchets</h2>
                     </div>
                     <div class="bTop">
@@ -474,7 +529,7 @@
                 </section>
             </main>
             <footer>
-                <div class="bgroundLGray padding015 bBottom">
+                <div class="bgroundLGray padding013 bBottom">
                     <h2 style="margin: 0px 0 0px 0px;">6. Date et signature de l’émetteur de l’attestation : </h2>
                 </div>
             </footer>

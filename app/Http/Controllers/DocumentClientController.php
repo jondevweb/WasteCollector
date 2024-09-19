@@ -20,13 +20,19 @@ class DocumentClientController extends Controller
     }
 
     public function indexDocument(Request $request){
-        $collectePoint = collectePoint::where('client_id', '=', $request->session()->get('client')['client'])->first();
+        $clientId = $request->session()->get('client')['client'];
+        $collectePoint = collectePoint::where('client_id', '=', $clientId)->first();
         //sera remplacé par l'id point de collecte selectionné       
-        $id = $collectePoint->id;
+        $collecteId = $collectePoint->id;
         $collecteController = new CollecteController();
-        $collecte = $collecteController->findCollecteById($id);
-        // dd($collecte);
-        $job = new GeneratePDF($collecte);
+       
+        // if(attestation de valorisation){
+        //     $collecte = $collecteController->findCollecteById($collecteId);
+        // } else {
+            $collecte = $clientId;
+            
+        // }
+        $job = new GeneratePDF($collecte); 
         dispatch($job);
     
         // Attendre que le job termine et obtenir les données
@@ -36,6 +42,7 @@ class DocumentClientController extends Controller
         // Attendre que le job termine et obtenir les données
         // $collecte->handle();
         return view('client/pdf_view', ['data' => $job->data]);
+        // return view('client/pdf_view', ['data' => $job->data]);
     }
 
     public function uploadImage(Request $request)

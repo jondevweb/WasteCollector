@@ -1,6 +1,6 @@
 <template>
   <OpenMenu></OpenMenu>
-  <div style="display: flex; height: 100%" >
+  <div style="display: flex; min-height: 100%;" >
     <div style="width: 330px; background: #003f6e;" aria-expande="false" id="closeMenu">
       <q-list bordered padding class="rounded-borders text-primary">
         <q-item

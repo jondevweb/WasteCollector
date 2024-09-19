@@ -40,13 +40,21 @@
                 background-color: rgba(0,0,0,0);
                 border-color: rgba(0,0,0,0);
             }
+            .navbar-light{
+                display:flex; 
+                box-shadow: 0px 2px 10px #6c757d;
+                position: fixed;
+                z-index: 99;
+                width: 100%;
+                background: white;
+            }
         </style>
         @vite(['resources/js/app.js', 'resources/css/app.css'])
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head> 
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50" style="height: 92vh;">
+    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
     @if(Auth::check())
-        <header style="display:flex; box-shadow: 0px 2px 10px #6c757d;" class="navbar-light">
+        <header class="navbar-light">
             <div style="width: 40%; display:flex;">
                 <div id="burgerMenu" style="width: 30%"></div>
                 <form style="width: 70%" class="form-inline my-2 my-lg-0">
@@ -82,8 +90,8 @@
                 </div>
             </div>
         </header>
-        <main style="display:flex; height: 100%;">
-            <div id="app" data-initial-value="" style="height: 100%; width: 100%"></div>
+        <main style="display:flex; position: absolute; top: 60px; width: 100%; height: 100%; margin: 0; padding: 0; box-sizing: border-box;">
+            <div id="app" data-initial-value="" style="width: 100%"></div>
         </main>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -93,7 +101,6 @@
             collectePoint = null;
             newCollecteId = localStorage.getItem('id');
             collectePointArray();
-            console.log(collecteId.value);
             function updateVueData() {
                 const event = new CustomEvent('value-changed', { detail: collecteId.value });
                 document.getElementById('app').dispatchEvent(event);
@@ -105,8 +112,10 @@
                     newOption.text = cp.entreprise.raison_sociale_entreprise + ' : ' + cp.adresse_collecte_point;
                     collecteId.add(newOption);
                 });
-                if(newCollecteId != 0){
+                if(newCollecteId != null ){
                     collecteId.value = newCollecteId;
+                } else {
+                    collecteId.value = 0;
                 }
             }
             async function collectePointArray(){
